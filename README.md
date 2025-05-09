@@ -1,0 +1,1 @@
+# Newspaper-and-Magazine-Identify
