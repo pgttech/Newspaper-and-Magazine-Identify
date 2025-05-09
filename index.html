@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Newspaper and Magazine Element Identify</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+/* Container styles shared by both divs */
+#intro, #quiz {
+  max-width: 900px;
+  margin: 80px auto 100px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#intro {
+  max-width: 900px;
+  margin: 80px auto 100px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+#intro .logo-container {
+  text-align: right;  /* Align logo to the right */
+  width: 100%;  /* Ensure logo container takes full width */
+}
+
+img.logo {
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+
+#quiz { 
+  display: none; 
+}
+
+input[type="text"], input[type="email"] { 
+  padding: 10px; 
+  width: 80%; 
+  margin: 10px 0; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+}
+
+button { 
+  margin-top: 20px; 
+  padding: 10px 25px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  background-color: #007BFF; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+}
+
+button:disabled { 
+  background-color: #aaa; 
+  cursor: not-allowed; 
+}
+
+.marquee { 
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  background: #007BFF; 
+  color: white; 
+  padding: 10px; 
+  font-weight: bold; 
+}
+
+.question { 
+  margin-bottom: 40px; 
+  color: blue;
+}
+
+.question img { 
+  max-width: 100%; 
+  height: auto; 
+  margin: 15px 0; 
+}
+
+.options label { 
+  display: block; 
+  margin-bottom: 5px; 
+  color: green;
+  font-weight: bold;
+}
+
+#timer { 
+  font-weight: bold; 
+  font-size: 18px; 
+  margin-top: 20px; 
+  color: red; 
+}
+.logo2-container {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.logo2 {
+  max-height: 60px;
+}
+  </style>
+</head>
+<body>
+
+<div id="intro">
+  <!-- Logo container with text-align:right for right alignment -->
+  <div class="logo-container">
+    <img src="logo.png" alt="Company Logo" class="logo"><br>
+  </div>
+
+  <h3><a href="https://www.patelgtech.com" target="_blank">www.patelgtech.com</a></h3><br><h3 style="color: green; text-decoration: underline;">Newspaper and Magazine Element Identify</h3><br><br>
+  <input type="text" id="name" placeholder="Enter your name" required><br>
+  <input type="email" id="email" placeholder="Enter your email" required><br>
+  <button id="startBtn" onclick="startQuiz()" disabled><b>Click to Start</b></button>
+</div>
+
+
+<div id="quiz">
+<div class="logo2-container">
+    <img src="logo2.png" alt="Logo 2" class="logo2">
+  </div>
+  <h2 style="color:green;text-align: center;text-decoration: underline;">Newspaper and Magazine Element Identify</h2>
+  <div id="timer">Time Left: 20:00</div>
+  <div id="questions-container"></div>
+  <button id="submitBtn" onclick="submitQuiz()" disabled>Submit</button>
+</div>
+
+<div class="marquee">
+  <marquee behavior="scroll" direction="left">© 2025 PatelGTech. All rights reserved.            © 2025 PatelGTech Llp. All rights reserved.            © 2025 PatelGTech Llp. All rights reserved.            © 2025 PatelGTech Llp. All rights reserved.</marquee>
+</div>
+
+<script>
+  const questionsData = [
+    { img: "images/01_Article_StandFirst.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Article Title", "Sub-Head", "Article Standfirst", "Article Byline"], correct: "C" },
+    { img: "images/02_Section.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Article Header", "Reader feedback", "Section", "Index"], correct: "C" },
+    { img: "images/03_Article_Title.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Author", "Article Headline", "Section", "Sub-Header"], correct: "B" },
+    { img: "images/04_Article_Subhead.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Byline", "Secondary heading", "Caption", "Footer"], correct: "B" },
+    { img: "images/05_Article_Lead_Text.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Main points", "Author’s full history", "Table of contents", "Short Summary of the Article"], correct: "D" },
+    { img: "images/06_Article_Full_Byline.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Editor’s comment", "Article category", "Author’s name", "Image location"], correct: "C" },
+    { img: "images/07_DropCaps.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["DropCaps", "Denote end", "Spell check", "Add links"], correct: "A" },
+    { img: "images/08_How_Many_Paragraphs.jpg", q: "How many paragraphs are visible in this article layout?", a: ["19", "18", "20", "17"], correct: "A" },
+    { img: "images/09_Sub-head_of_Article.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Lead", "Byline", "Sub-heading", "Pullquote"], correct: "C" },
+    { img: "images/10_Image_Caption.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Photo credit", "Explain the image", "Promote sponsors", "Nothing"], correct: "B" },
+    { img: "images/11_Image_Credit.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Provide metadata", "Acknowledgment to the image source,", "Add filters", "Show format"], correct: "B" },
+    { img: "images/12_Pullquote.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Break layout", "Quotation", "Title of section", "Sub-heading"], correct: "B" },
+    { img: "images/13_Pullquote_Credit.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Author of the Quotation", "Publication", "Speaker", "Photographer"], correct: "A" },
+    { img: "images/14_Boxout.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Main headline", "Boxout", "Footer", "SEO block"], correct: "B" },
+    { img: "images/15_Callout.jpg", q: "As per your understanding, what will be the annotated called in Newspaper/Magazine?", a: ["Pop-up", "Highlighted fact", "Note", "Date"], correct: "B" },
+    { img: "images/16_Underline.jpg", q: "What type of Emphasis do You See for the Annotated Part?", a: ["Bolden", "Strikeout", "Underline", "Italicize"], correct: "C" },
+    { img: "images/17_Italic.jpg", q: "What type of Emphasis do You See for the Annotated Part?", a: ["Italic", "Strong", "Underline", "Insert links"], correct: "A" },
+    { img: "images/18_Bold.jpg", q: "What type of Emphasis do You See for the Annotated Part?", a: ["Add color", "Bold", "Add link", "Reduce visibility"], correct: "B" }
+  ];
+
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const startBtn = document.getElementById('startBtn');
+  const submitBtn = document.getElementById('submitBtn');
+
+  nameInput.addEventListener('input', validateInputs);
+  emailInput.addEventListener('input', validateInputs);
+
+  function validateInputs() {
+    startBtn.disabled = !(nameInput.value.trim() && emailInput.value.trim());
+  }
+
+  function startQuiz() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+    loadQuestions();
+    startTimer(20 * 60); // 20 mins
+  }
+
+function loadQuestions() {
+    const container = document.getElementById('questions-container');
+    questionsData.forEach((q, index) => {
+        const qNum = index + 1;
+        const div = document.createElement('div');
+        div.className = 'question';
+
+        // Add a separator (horizontal line) above each question
+        const separator = document.createElement('hr'); // Create <hr> element
+        div.appendChild(separator); // Append it above the question
+
+        let optionsHTML = '';
+        q.a.forEach((opt, i) => {
+            optionsHTML += `
+                <label>
+                    <input type="radio" name="q${qNum}" value="${String.fromCharCode(65+i)}" onchange="checkCompletion()"> ${opt}
+                </label>
+            `;
+        });
+
+        div.innerHTML += `
+            <h4>Question ${qNum}: ${q.q}</h4>
+            <img src="${q.img}" alt="Question ${qNum} Image">
+            <div class="options">${optionsHTML}</div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+
+  function checkCompletion() {
+    let allAnswered = true;
+    for (let i = 1; i <= 18; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+        allAnswered = false;
+        break;
+      }
+    }
+    submitBtn.disabled = !allAnswered;
+  }
+
+  function startTimer(seconds) {
+    const timerDisplay = document.getElementById('timer');
+    const countdown = setInterval(() => {
+      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `Time Left: ${min}:${sec}`;
+      seconds--;
+
+      if (seconds < 0) {
+        clearInterval(countdown);
+        alert("Time's up! Submitting your answers.");
+        submitQuiz();
+      }
+    }, 1000);
+  }
+
+function submitQuiz() {
+  const userName = nameInput.value.trim();
+  const userEmail = emailInput.value.trim();
+  const answers = [];
+
+  let score = 0;
+  questionsData.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i+1}"]:checked`)?.value || "";
+    if (selected === q.correct) score++;
+    answers.push({
+      "Question": q.q,
+      "Selected Answer": selected,
+      "Correct Answer": q.correct
+    });
+  });
+
+  const worksheetData = [
+    ["Name", userName],
+    ["Email", userEmail],
+    [],
+    ["#", "Question", "Selected", "Correct"]
+  ];
+
+  answers.forEach((item, index) => {
+    worksheetData.push([index+1, item.Question, item["Selected Answer"], item["Correct Answer"]]);
+  });
+
+  worksheetData.push([]);
+  worksheetData.push(["Total Score", `${score} / 18`]);
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(worksheetData);
+  XLSX.utils.book_append_sheet(wb, ws, "Results");
+
+  const filename = `${userName.replace(/\s+/g, "_")}_Quiz_Result.xlsx`;
+  XLSX.writeFile(wb, filename);
+
+  // ✅ Redirect after download
+  setTimeout(() => {
+    window.location.href = "https://www.google.com";
+  }, 3000); // optional delay
+}
+
+
+
+window.addEventListener('beforeunload', function(event) {
+    // Custom warning message (for most browsers, this will be a generic message)
+    const message = 'You have unsaved changes. Are you sure you want to leave?';
+    
+    // Display the warning message in some browsers
+    event.returnValue = message; // Required for modern browsers
+    return message; // Some browsers still need this to display the prompt
+});
+
+</script>
+
+</body>
+</html>
