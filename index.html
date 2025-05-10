@@ -99,14 +99,6 @@ button:disabled {
   margin-top: 20px; 
   color: red; 
 }
-.logo2-container {
-  text-align: right;
-  margin-bottom: 10px;
-}
-
-.logo2 {
-  max-height: 60px;
-}
   </style>
 </head>
 <body>
@@ -125,10 +117,7 @@ button:disabled {
 
 
 <div id="quiz">
-<div class="logo2-container">
-    <img src="logo2.png" alt="Logo 2" class="logo2">
-  </div>
-  <h2 style="color:green;text-align: center;text-decoration: underline;">Newspaper and Magazine Element Identify</h2>
+  <h2>Newspaper and Magazine Element Identify</h2>
   <div id="timer">Time Left: 20:00</div>
   <div id="questions-container"></div>
   <button id="submitBtn" onclick="submitQuiz()" disabled>Submit</button>
@@ -270,7 +259,7 @@ function submitQuiz() {
   const ws = XLSX.utils.aoa_to_sheet(worksheetData);
   XLSX.utils.book_append_sheet(wb, ws, "Results");
 
-  const filename = `${userName.replace(/\s+/g, "_")}_Quiz_Result.xlsx`;
+  const filename = `${userName.replace(/\s+/g, "_")}_Newspaper_and_Magazine_Identify_Result.xlsx`;
   XLSX.writeFile(wb, filename);
 
   // ✅ Redirect after download
